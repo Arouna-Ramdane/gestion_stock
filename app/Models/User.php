@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
 
 class User extends Authenticatable
 {
@@ -17,11 +19,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    protected $primaryKey = 'user_id';
+    protected $fillable = ['first_name', 'name', 'contact','email', 'adresse', 'role', 'password'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,4 +44,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+     public function commandes(): HasMany
+    {
+        return $this->hasMany(Commande::class);
+    } 
 }
