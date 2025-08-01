@@ -19,6 +19,7 @@ class CommandeSeeder extends Seeder
             'dateCommande' => now(),
             'prix_total' => 1230000,
             'user_id' => 1,
+            'client_id' => 1
         ]];
 
         DB::table('commandes')->insert($commandes);

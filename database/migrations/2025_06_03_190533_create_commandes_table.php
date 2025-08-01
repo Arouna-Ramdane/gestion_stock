@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id('commande_id');
             $table->date('dateCommande');
             $table->integer('prix_total');
-            $table->foreignId('user_id')->constrained('users', 'user_id');
+            $table->foreignId('user_id')->nullable()->constrained('users', 'user_id')->onDelete('set null');
+            $table->foreignId('client_id')->nullable()->constrained('clients', 'client_id')->onDelete('set null');
             $table->timestamps();
         });
     }

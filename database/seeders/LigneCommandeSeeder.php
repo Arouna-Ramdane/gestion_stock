@@ -14,15 +14,13 @@ class LigneCommandeSeeder extends Seeder
      */
     public function run(): void
     {
-       
+
         $ligne=[[
+            'produit_id' => 1,
+            'quantite' => 2,
             'prix_ligne' => 30000,
             'commande_id' => 1,
-            'produit_id' => 1,
-        ],[
-            'prix_ligne' => 1200000,
-            'commande_id' => 1,
-            'produit_id' => 2,
+
         ]];
 
         DB::table('ligne_commandes')->insert($ligne);

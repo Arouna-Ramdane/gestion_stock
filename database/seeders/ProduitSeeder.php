@@ -14,23 +14,12 @@ class ProduitSeeder extends Seeder
      */
     public function run(): void
     {
-        
+
         $produits=[[
-            'libelle' => 'frigo',
+            'libelle' => 'frigo-renz',
             'prix' => 230000,
             'quantiteStock' => 10,
-        ],[
-            'libelle' => 'tele',
-            'prix' => 100000,
-            'quantiteStock' => 16,
-        ],[
-            'libelle' => 'Iphone',
-            'prix' => 600000,
-            'quantiteStock' => 27,
-        ],[
-            'libelle' => 'mp3',
-            'prix' => 10000,
-            'quantiteStock' => 22,
+            'image' => "imageProduit/frig-renz.jpeg",
         ]];
 
         DB::table('produits')->insert($produits);

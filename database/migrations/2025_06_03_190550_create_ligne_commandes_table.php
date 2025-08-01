@@ -13,12 +13,13 @@ return new class extends Migration
 {
     Schema::create('ligne_commandes', function (Blueprint $table) {
         $table->id('lign_id');
+        $table->integer('produit_id')->nullable();
         $table->integer('prix_ligne');
-        $table->integer('commande_id'); 
-        $table->integer('produit_id');
+        $table->integer('quantite');
+        $table->integer('commande_id')->nullable();
         $table->timestamps();
-        $table->foreign('commande_id')->references('commande_id')->on('commandes');
-        $table->foreign('produit_id')->references('produit_id')->on('produits');
+        $table->foreign('commande_id')->references('commande_id')->on('commandes')->onDelete('set null');
+        $table->foreign('produit_id')->references('produit_id')->on('produits')->onDelete('set null');
     });
     }
 

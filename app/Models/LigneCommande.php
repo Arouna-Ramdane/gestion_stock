@@ -8,7 +8,7 @@ class LigneCommande extends Model
 {
 
     protected $primaryKey = 'lign_id';
-    protected $fillable = ['prix_ligne', 'commande_id', 'produit_id'];
+    protected $fillable = ['prix_ligne', 'quantite', 'commande_id', 'produit_id'];
 
 
     public function Commandes(): BelongsTo
