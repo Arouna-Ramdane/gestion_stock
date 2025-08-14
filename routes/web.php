@@ -32,7 +32,10 @@ Route::middleware(['auth'])->resource('commandes', CommandeController::class);
 Route::middleware(['auth'])->resource('depenses', DepenseController::class);
 
 
-Route::get('/total_journalier', [CommandeController::class, 'totalJournalier'])->name('totalJournalier');
+Route::middleware(['auth'])->get('/total_journalier', [CommandeController::class, 'totalJournalier'])->name('totalJournalier');
+
+Route::middleware(['auth'])->get('/all_commandes', [CommandeController::class, 'all_commande'])->name('allCommande');
+
 //Route::post('/depenses', [CommandeController::class, 'storeDepense'])->name('depenses');
 
 

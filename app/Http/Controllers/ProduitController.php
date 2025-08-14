@@ -5,16 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Produit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 
-class ProduitController extends Controller
+class ProduitController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
      */
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view-produit', only: ['index', 'show']),
+            new Middleware('permission:add-produit', only: ['create', 'store']),
+            new Middleware('permission:edit-produit', only: ['edit', 'update']),
+            new Middleware('permission:delete-produit', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
-        $all=Produit::all();
+        $all = Produit::orderBy('libelle', 'asc')->get();
         return view('produits.index',[
             'produits' => $all,
         ]);
@@ -45,6 +58,7 @@ class ProduitController extends Controller
     ]
 );
 
+
     if ($request->file('image')) {
         $name=$validat_data_produit['libelle'];
         $name=trim(strtolower($name));
@@ -63,7 +77,7 @@ class ProduitController extends Controller
             'libelle' =>$name,
             'prix' => $validat_data_produit['prix'],
             'quantiteStock' => $validat_data_produit['quantiteStock'],
-            'image' => $request->file('image'),
+            'image' => $path,
         ]);
     } else {
         $produit = Produit::create([

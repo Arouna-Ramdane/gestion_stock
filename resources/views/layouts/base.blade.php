@@ -12,7 +12,7 @@
         <aside class="w-64 shrink-0 bg-white shadow-md h-full overflow-y-auto">
             @include('layouts.dashbord')
         </aside>
-        <main class="flex-1 bg-gray-100 p-4 overflow-y-auto">
+        <main class="flex-1 bg-gray-200 p-4 overflow-y-auto">
             @yield('content')
         </main>
     </div>
