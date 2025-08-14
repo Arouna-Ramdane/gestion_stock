@@ -16,6 +16,7 @@ return new class extends Migration
         $table->string('email')->unique();
         $table->string('password');
         $table->unsignedBigInteger('personne_id')->nullable();
+        $table->string('profile')->nullable();
         $table->foreign('personne_id')->references('personne_id')->on('personnes')->onDelete('set null');
         $table->timestamp('email_verified_at')->nullable();
         $table->rememberToken();

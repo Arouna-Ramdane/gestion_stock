@@ -8,16 +8,15 @@
         </div>
     @endif
 
-    <div class="flex justify-between mb-5">
-
+     <div class="flex justify-between mb-5">
+            <form method="GET" action="{{ route('allCommande') }}" class="flex items-center gap-4">
+                filter par date :
+                <input type="date" name="date" value="{{ request('date', date('Y-m-d')) }}"
+                class="border rounded-md px-3 py-2 focus:outline-none focus:ring focus:border-blue-300" required>
+                <button type="submit" class="btn btn-primary">Valider</button>
+            </form>
 
             <div>
-            <a href="{{route('commandes.create')}}"><button  class="btn btn-neutral">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-    </svg>ADD commande
-            </button></a>
-
             <a href="{{route('allCommande')}}"><button  class="btn btn-neutral">
                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -88,10 +87,5 @@
             </tbody>
             </table>
         </div>
-        <div class="flex justify-end p-4 text-lg font-semibold">
-            Total général : <span class="ml-2 text-green-700">{{$tatal_commandes}} FCFA</span>
-        </div>
-
 </div>
-
 @endsection

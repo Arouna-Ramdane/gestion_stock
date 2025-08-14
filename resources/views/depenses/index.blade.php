@@ -23,9 +23,10 @@
         </div>
     </div>
 
-    <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 max-h-[500px] overflow-y-auto">
         <table class="table">
-            <thead class="text-white bg-gray-900">
+                <thead class="text-white bg-gray-900 sticky top-0 z-10">
+
                 <tr>
                     <th>Montant</th>
                     <th>Motif</th>
@@ -77,6 +78,9 @@
                     @endforelse
             </tbody>
         </table>
+    </div>
+    <div class="flex justify-end p-4 text-lg font-semibold">
+        Total depenses : <span class="ml-2 text-red-700">{{$total_depense}} FCFA</span>
     </div>
 
 </div>

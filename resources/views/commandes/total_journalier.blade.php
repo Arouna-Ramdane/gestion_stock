@@ -11,7 +11,7 @@
 
     <div class="mb-6">
         <h2 class="text-xl font-bold text-gray-700">📊 Résumé du {{ $date }}</h2>
-        <p class="mt-2 text-green-600">💰 Total des ventes : <strong>{{ number_format($total, 0, ',', ' ') }} FCFA</strong></p>
+        <p class="mt-2 text-green-600">💰 Total des ventes : <strong>{{ number_format($total, 0, ',', ' ') }} FCFA</strong> </p>
         <p class="text-red-500">💸 Dépenses : <strong>{{ number_format($depenses, 0, ',', ' ') }} FCFA</strong></p>
         <p class="mt-2 text-blue-800 font-bold">📈 Résultat final :
             <strong>{{ number_format($total - $depenses, 0, ',', ' ') }} FCFA</strong>

@@ -6,15 +6,28 @@ use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Personne;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-class ClientController extends Controller
+class ClientController extends Controller implements HasMiddleware
 {
     /**
      * Display a listing of the resource.
      */
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view-client', only: ['index', 'show']),
+            new Middleware('permission:add-client', only: ['create', 'store']),
+            new Middleware('permission:edit-client', only: ['edit', 'update']),
+            new Middleware('permission:delete-client', only: ['destroy']),
+        ];
+    }
+
     public function index()
     {
-        $all=DB::table('personnes')->join('clients', 'personnes.personne_id', 'clients.personne_id')->select('personnes.*','clients.*')->paginate(100);
+        $all=DB::table('personnes')->join('clients', 'personnes.personne_id', 'clients.personne_id')->select('personnes.*','clients.*')->orderBy('personnes.first_name', 'asc')->get();
         return view('clients.index',[
             'clients' => $all,
         ]);
@@ -91,7 +104,7 @@ class ClientController extends Controller
             'adresse' => $validated_data['adresse']
         ]);
 
-    return redirect()->route('clients.index');
+    return redirect()->route('clients.index')->with('success', 'modification du client reussi.');;
     }
 
     /**
@@ -102,6 +115,6 @@ class ClientController extends Controller
         $delete_personnes =DB::table('personnes')->where('personne_id', $client->personne_id);
         $delete_personnes->delete();
         $client->delete();
-        return redirect()->route('clients.index');
+        return redirect()->route('clients.index')->with('success', 'client supprimée.');
     }
 }

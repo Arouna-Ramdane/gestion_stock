@@ -1,6 +1,16 @@
 @extends('layouts.base_no_dashbord')
 
 @section('content')
+
+
+<div class="p-6">
+            <a href="{{ url()->previous() }}"><button  class="btn btn-neutral">
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+</svg>
+retour
+            </button></a>
+            </div>
 <div class="max-w-xl mx-auto mt-10 bg-white shadow-md rounded-xl p-8 justify-center">
     <h1 class="text-2xl font-bold mb-6 text-center text-gray-800">Formulaire d'enregistrement d'une dépense</h1>
 
@@ -25,16 +35,10 @@
         </div>
         <div class="flex justify-between pt-6">
             <button type="submit"
-                class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">Enregistrer</button>
+                class="btn btn-neutral px-6 py-2 rounded-lg hover:bg-gray-900 transition">Enregistrer</button>
             <button type="reset"
                 class="bg-gray-200 text-gray-700 px-6 py-2 rounded-lg hover:bg-gray-300 transition">Annuler</button>
         </div>
     </form>
-</div>
-<div class="flex justify-center pt-6">
-    <a href="{{ route('depenses.index') }}">
-<button type="submit"
-                class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition">BACK</button>
-    </a>
 </div>
 @endsection

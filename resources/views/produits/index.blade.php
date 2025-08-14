@@ -10,37 +10,40 @@
 
     <div class="flex justify-between mb-5 items-center">
         <h1 class="text-2xl font-semibold">La liste des produits</h1>
+        @can('add-produit')
         <a href="{{ route('produits.create') }}">
-            <button class="bg-neutral-700 text-white px-4 py-2 rounded flex items-center gap-2 hover:bg-neutral-800 transition">
+            <button class="btn btn-neutral">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                 </svg>
                 ADD produit
             </button>
         </a>
+        @endcan
     </div>
 
-    <div class="overflow-x-auto rounded border border-gray-300 bg-white shadow-sm">
-        <table class="w-full table-auto border-collapse">
-            <thead class="bg-gray-100 text-gray-700">
+        <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100 max-h-[500px] overflow-y-auto">
+        <table class="table">
+                <thead class="text-white bg-gray-900 sticky top-0 z-10">
+
                 <tr>
-                    <th class="p-3 border-b border-gray-300 text-left">Image</th>
-                    <th class="p-3 border-b border-gray-300 text-left">Libelle</th>
-                    <th class="p-3 border-b border-gray-300 text-left">Prix (FCFA)</th>
-                    <th class="p-3 border-b border-gray-300 text-left">Quantité en stock</th>
-                    <th class="p-3 border-b border-gray-300 text-left">Actions</th>
+                    <th class="text-center">Image</th>
+                    <th class="text-center">Libelle</th>
+                    <th class="text-center">Prix (FCFA)</th>
+                    <th class="text-center">Quantité en stock</th>
+                    <th class="text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($produits as $produit)
                     <tr class="hover:bg-gray-50 border-b border-gray-200">
-                        <td class="p-3 border-b border-gray-300">
+                        <td class="border-b border-gray-500">
                             <img src="{{ asset('storage/' . $produit->image) }}" alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover rounded">
                         </td>
-                        <td class="p-3 border-b border-gray-300">{{ $produit->libelle }}</td>
-                        <td class="p-3 border-b border-gray-300">{{ number_format($produit->prix, 0, ',', ' ') }}</td>
-                        <td class="p-3 border-b border-gray-300">{{ $produit->quantiteStock }}</td>
-                        <td class="p-3 border-b border-gray-300">
+                        <td class=" border-b border-gray-500 text-center">{{ $produit->libelle }}</td>
+                        <td class=" border-b border-gray-500 text-center">{{ number_format($produit->prix, 0, ',', ' ') }}</td>
+                        <td class=" border-b border-gray-500 text-center">{{ $produit->quantiteStock }}</td>
+                        <td class=" border-b border-gray-500 text-center">
                             <div class="flex gap-2">
                                 <a href="{{ route('produits.show', $produit->produit_id) }}" class="text-blue-600 hover:text-blue-800" title="Voir">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">

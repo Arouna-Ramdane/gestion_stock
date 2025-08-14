@@ -6,18 +6,34 @@ use App\Models\Depense;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
 
-class DepenseController extends Controller
+class DepenseController extends Controller implements HasMiddleware
 {
     /**
      * Affiche toutes les dépenses.
      */
+
+    public static function middleware(): array
+    {
+        return [
+            new Middleware('permission:view-depense', only: ['index', 'show']),
+            new Middleware('permission:add-depense', only: ['create', 'store']),
+            new Middleware('permission:edit-depense', only: ['edit', 'update']),
+            new Middleware('permission:delete-depense', only: ['destroy']),
+        ];
+    }
+
+
     public function index()
     {
-        //$depenses = Depense::orderBy('created_at', 'desc')->get();
+        $depenses = DB::table('depenses')->whereDate('created_at', now())->get();
+        $total_depenses = $depenses->sum('montant');
         return view('depenses.index', [
-            'depenses' => DB::table('depenses')->whereDate('created_at', now())->get()
+            'depenses' => $depenses,
+            'total_depense' => $total_depenses
         ]);
     }
 
