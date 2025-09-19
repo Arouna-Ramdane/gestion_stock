@@ -52,11 +52,16 @@ class ProduitController extends Controller implements HasMiddleware
         'prix' => 'required|integer',
         'quantiteStock' => 'required|integer|min:1',
         'image' => 'nullable|image',
-    ],[
-        'quantiteStock.min' => 'La quantité  en stock doit être supperieur ou egale a 1.',
-        'libelle.unique' => 'un produit de ce nom existe déja dans le stock',
-    ]
-);
+    ], [
+        'libelle.required' => 'Le nom du produit est obligatoire.',
+        'libelle.unique' => 'Un produit avec ce nom existe déjà.',
+        'prix.required' => 'Le prix est obligatoire.',
+        'prix.integer' => 'Le prix doit être un nombre entier.',
+        'quantiteStock.required' => 'Veuillez saisir la quantité en stock.',
+        'quantiteStock.integer' => 'La quantité doit être un nombre entier.',
+        'image.image' => 'Le fichier doit être une image valide.',
+    ]);
+
 
 
     if ($request->file('image')) {
@@ -121,12 +126,18 @@ class ProduitController extends Controller implements HasMiddleware
     $validat_data_produit = $request->validate([
         'libelle' => 'required|unique:produits,libelle,' . $produit->produit_id . ',produit_id',
         'prix' => 'required|integer',
-        'quantiteStock' => 'required|integer|min:1',
+        'quantiteStock' => 'required|integer',
         'image' => 'nullable|image',
-    ],[
-        'quantiteStock.min' => 'La quantité en stock doit être supérieure ou égale à 1.',
+    ], [
+        'libelle.required' => 'Le nom du produit est obligatoire.',
         'libelle.unique' => 'Un produit avec ce nom existe déjà.',
+        'prix.required' => 'Le prix est obligatoire.',
+        'prix.integer' => 'Le prix doit être un nombre entier.',
+        'quantiteStock.required' => 'Veuillez saisir la quantité en stock.',
+        'quantiteStock.integer' => 'La quantité doit être un nombre entier.',
+        'image.image' => 'Le fichier doit être une image valide.',
     ]);
+
 
     // Nettoyage du libellé
     $name = trim(strtolower(str_replace(" ", "", $validat_data_produit['libelle'])));

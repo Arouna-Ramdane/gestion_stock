@@ -14,7 +14,7 @@
         <div class="flex justify-center">
     <a href="{{ route('produits.index') }}">
 <button type="submit"
-                class="bg-white text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition">BACK</button>
+                class="bg-white text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition">retour</button>
     </a>
 </div>
     </div>

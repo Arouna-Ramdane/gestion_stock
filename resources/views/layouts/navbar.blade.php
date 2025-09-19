@@ -30,7 +30,6 @@
      class="max-h-full max-w-full object-contain transition duration-300 ease-in-out">
 
         </div>
-
       </div>
     </div>
     @endauth

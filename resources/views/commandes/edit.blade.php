@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="p-6">
-    <a href="{{  url()->previous() }}">
+    <a href="{{ route('commandes.index')}}">
         <button class="btn btn-neutral">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                  stroke-width="1.5" stroke="currentColor" class="size-6">
@@ -86,22 +86,26 @@
             <div class="mt-4">
                 <h3 class="text-lg font-semibold mb-2">Panier</h3>
                 <div id="panier" class="space-y-2 max-h-64 overflow-y-auto">
-                    @php $total = 0; @endphp
+                    @php $total = $commande->prix_total ; @endphp
                     @foreach($lign_commande as $ligne)
                         @php
                             $produit = $produits->firstWhere('produit_id', $ligne->produit_id);
-                            $total += $ligne->prix_ligne;
                         @endphp
                         <div class="flex items-center justify-between bg-white p-2 rounded shadow">
-                            <input type="number" min="0"
-                                   value="{{ $ligne->quantite }}"
-                                   class="w-16 p-1 border rounded modif_qte"
-                                   name="qte[]" onchange="modifierPrix(event, {{ $ligne->prix_ligne }})">
-                            <p class="flex-1 px-2">{{ $produit->libelle}}</p>
-                            <span class="prix font-bold">{{ $ligne->prix_ligne }}</span> FCFA
-                            <input type="hidden" name="id_prod[]" value="{{ $ligne->produit_id }}">
-                            <input type="hidden" name="id_prix_achat[]" value="{{ $ligne->prix_ligne }}">
-                        </div>
+                        <input type="number" min="0"
+                            value="{{ $ligne->quantite }}"
+                            class="w-16 p-1 border rounded modif_qte"
+                            name="qte[]" onchange="modifierPrix(event, {{ $ligne->prix_ligne / $ligne->quantite }})">
+                        <p class="flex-1 px-2">{{ $produit->libelle }}</p>
+
+                        <input type="number"
+                            class="prix_ligne font-bold w-20 p-1 border rounded"
+                            name="id_prix_achat[]"
+                            value="{{ $ligne->prix_ligne }}"
+                            onchange="recalculerTotal()"> FCFA
+                        <input type="hidden" name="id_prod[]" value="{{ $ligne->produit_id }}">
+                    </div>
+
                     @endforeach
                 </div>
             </div>
@@ -120,66 +124,9 @@
         </div>
     </div>
 </form>
-
-<script>
-const prix_total = document.getElementById('prix_total');
-
-function ajouterPanier(nom, prix, stock, id) {
-    let le_prix = prompt("Entrer le prix :", prix);
-    if (le_prix === null) return;
-    let prix_achat = Number(le_prix);
-    if (isNaN(prix_achat) || prix_achat <= 0) {
-        alert("Prix invalide !");
-        return;
-    }
-
-    const panier = document.getElementById('panier');
-
-    const existe = Array.from(panier.children).some(ligne =>
-        ligne.querySelector('input[name="id_prod[]"]').value == id
-    );
-    if (existe) {
-        alert("Ce produit est déjà dans le panier.");
-        return;
-    }
-
-    const ligne = document.createElement('div');
-    ligne.className = 'flex items-center justify-between bg-white p-2 rounded shadow';
-
-    ligne.innerHTML = `
-        <input type="number" min="0" max="${stock}" value="1"
-               class="w-16 p-1 border rounded modif_qte"
-               name="qte[]" onchange="modifierPrix(event, ${prix_achat})">
-        <p class="flex-1 px-2">${nom}</p>
-        <input type="hidden" name="id_prod[]" value="${id}">
-        <input type="hidden" name="id_prix_achat[]" value="${prix_achat}">
-        <span class="prix font-bold">${prix_achat}</span> FCFA
-    `;
-    panier.appendChild(ligne);
-
-    prix_total.textContent = Number(prix_total.textContent) + prix_achat;
-}
-
-function modifierPrix(event, prix_unitaire) {
-    const input = event.target;
-    const qte   = Number(input.value);
-    const ligne = input.parentElement;
-    const prixLigne = ligne.querySelector('.prix');
-    const ancien = Number(prixLigne.textContent);
-
-    if (qte <= 0) {
-        ligne.remove();
-        prix_total.textContent = Number(prix_total.textContent) - ancien;
-        return;
-    }
-
-    const nouveau = qte * prix_unitaire;
-    prixLigne.textContent = nouveau;
-    prix_total.textContent = Number(prix_total.textContent) - ancien + nouveau;
-}
-
-document.getElementById('form').addEventListener('submit', e => {
-    document.getElementById('input_total').value = prix_total.textContent;
-});
-</script>
 @endsection
+
+@push('scripts')
+    @vite('resources/js/commandes/edit.js')
+@endpush
+

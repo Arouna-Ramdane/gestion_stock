@@ -29,10 +29,13 @@ class CommandeController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('permission:view-commande', only: ['index', 'show']),
+            new Middleware('permission:view-commande', only: ['index', 'show', 'all_commande']),
+            new Middleware('permission:view-allCommande', only: ['all_commande']),
             new Middleware('permission:add-commande', only: ['create', 'store']),
+            new Middleware('permission:add-depense', only: ['create', 'store']),
             new Middleware('permission:edit-commande', only: ['edit', 'update']),
             new Middleware('permission:delete-commande', only: ['destroy']),
+            new Middleware('permission:view-totalJournalier', only: ['totalJournalier']),
         ];
     }
 
@@ -128,8 +131,7 @@ public function store(Request $request)
 
         foreach ($request->id_prod as $index => $produit_id) {
     $qte = $request->qte[$index];
-    $prix_unitaire = $request->id_prix_achat[$index];
-
+    $prix_unitaire = $request->id_prix_achat[$index]/$qte;
     $produit = Produit::find($produit_id);
 
     if (!$produit) {
@@ -140,7 +142,7 @@ public function store(Request $request)
         DB::rollBack();
         return back()->withErrors(['stock' => "Stock insuffisant pour le produit : {$produit->libelle}"]);
     }
-
+    // dd($prix_unitaire);
     LigneCommande::create([
         'commande_id' => $commande->commande_id,
         'produit_id' => $produit_id,
@@ -395,3 +397,5 @@ $all = DB::table('commandes')
 }
 
 }
+
+
