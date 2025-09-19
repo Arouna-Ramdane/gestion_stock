@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'ramdanearouna9@gmail.com',
             'password' => Hash::make('1234'),
             'personne_id' => 1,
-            'profile' => 'ss',
+            'profile' => null,
         ]);
 
         $user->assignRole('admin');

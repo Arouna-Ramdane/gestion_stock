@@ -17,6 +17,10 @@ class ClientSeeder extends Seeder
             ];
         }
 
+        $clients[] = [
+                'personne_id' => 1,
+            ];
+
         DB::table('clients')->insert($clients);
     }
 }

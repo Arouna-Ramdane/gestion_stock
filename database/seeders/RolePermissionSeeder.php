@@ -55,6 +55,10 @@ class RolePermissionSeeder extends Seeder
             'edit-depense',
             'view-depense',
             'delete-depense',
+
+            //Autres
+            'view-totalJournalier',
+            'view-allCommande'
         ];
 
         foreach ($permissions as $perm) {

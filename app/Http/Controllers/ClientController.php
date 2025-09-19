@@ -47,11 +47,18 @@ class ClientController extends Controller implements HasMiddleware
     public function store(Request $request)
     {
         $validat_data_personne = $request->validate([
-        'first_name' => 'required',
-        'name' => 'required',
-        'contact' => 'required',
-        'adresse' => 'required',
-    ]);
+    'first_name' => 'required|string|max:255',
+    'name'       => 'required|string|max:255',
+    'contact'    => 'required|regex:/^\+[0-9]{1,3}[0-9]{6,12}$/|unique:personnes,contact',
+    'adresse'    => 'required|string|max:255',
+], [
+    'first_name.required' => 'Le prénom est obligatoire.',
+    'name.required'       => 'Le nom est obligatoire.',
+    'contact.regex' => 'Veuillez saisir un contact valide avec indicatif EX:+22891627160.',
+    'contact.required'    => 'Veuillez saisir un contact.',
+    'contact.unique'      => 'Ce contact existe déjà dans la base.',
+    'adresse.required'    => 'L’adresse est obligatoire.',
+]);
 
     DB::transaction(function () use ($validat_data_personne) {
         $personne = Personne::create($validat_data_personne);
@@ -92,11 +99,19 @@ class ClientController extends Controller implements HasMiddleware
     {
         //dd($client);
         $validated_data = $request->validate([
-        'first_name' => 'required',
-        'name' => 'required',
-        'contact' => 'required',
-        'adresse' => 'required'
+        'first_name' => 'required|string|max:255',
+        'name' => 'required|string|max:255',
+        'contact' => 'required|regex:/^\+[0-9]{1,3}[0-9]{6,12}$/|unique:personnes,contact,'. $client->personne_id .',personne_id',
+        'adresse' => 'required|string|max:255',
+        ], [
+        'first_name.required' => 'Le prénom est obligatoire.',
+        'name.required' => 'Le nom est obligatoire.',
+        'contact.required' => 'Veuillez saisir un contact.',
+        'contact.regex' => 'Veuillez saisir un nombre.',
+        'contact.unique' => 'Ce contact existe déjà dans la base.',
+        'adresse.required' => 'L’adresse est obligatoire.',
     ]);
+
     DB::table('personnes')->where('personne_id', $client->personne_id)->update([
             'first_name' => $validated_data['first_name'],
             'name' => $validated_data['name'],

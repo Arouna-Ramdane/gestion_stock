@@ -8,15 +8,18 @@
 </head>
 <body class="min-h-screen flex flex-col">
     @include('layouts.navbar')
+
     <div class="flex flex-1 overflow-hidden">
         <aside class="w-64 shrink-0 bg-white shadow-md h-full overflow-y-auto">
             @include('layouts.dashbord')
         </aside>
-        <main class="flex-1 bg-gray-200 p-4 overflow-y-auto">
+        <main class="flex-1 bg-gray-200 p-4 h-screen overflow-y-auto">
             @yield('content')
         </main>
     </div>
-    @include('layouts.footer')
 
+    <footer class="bg-white text-black p-1 mt-auto">
+        @include('layouts.footer')
+    </footer>
 </body>
 </html>

@@ -17,7 +17,7 @@
             <a href="{{ route('users.index') }}">
                 <button type="button"
                         class="bg-white text-gray-800 px-6 py-2 rounded-lg hover:bg-gray-300 transition">
-                    BACK
+                    retour
                 </button>
             </a>
         </div>

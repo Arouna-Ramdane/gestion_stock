@@ -7,6 +7,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\CommandeController;
 use App\Http\Controllers\DepenseController;
+use App\Http\Controllers\RecuController;
+
 
 
 
@@ -19,7 +21,7 @@ Route::get('/', function () {
 
 
 
-Route::middleware(['auth'])->resource('users', UserController::class);
+Route::resource('users', UserController::class);
 
 Route::middleware(['auth'])->resource('clients', ClientController::class);
 
@@ -30,6 +32,11 @@ Route::middleware(['auth'])->resource('ligne_commandes', ClientController::class
 Route::middleware(['auth'])->resource('commandes', CommandeController::class);
 
 Route::middleware(['auth'])->resource('depenses', DepenseController::class);
+
+Route::get('/produits/search', [ProduitController::class, 'search'])->name('produits.search');
+
+
+Route::get('/recu/{commande}', [RecuController::class, 'download'])->name('recu.download');
 
 
 Route::middleware(['auth'])->get('/total_journalier', [CommandeController::class, 'totalJournalier'])->name('totalJournalier');

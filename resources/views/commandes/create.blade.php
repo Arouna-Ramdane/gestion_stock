@@ -3,7 +3,7 @@
 @section('content')
 
  <div class="p-6">
-            <a href="{{ url()->previous() }}"><button  class="btn btn-neutral">
+            <a href="{{ route('commandes.index') }}"><button  class="btn btn-neutral">
                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
 </svg>
@@ -24,37 +24,44 @@ retour
         </div>
     @endif
 
+
+
     <div class="flex p-8 gap-6">
             <div class=" w-2/3 overflow-x-auto rounded-box border border-base-content/5 bg-base-100 max-h-[500px] overflow-y-auto">
             <h2 class="text-xl font-semibold mb-4">Produits disponibles</h2>
-            <table class="w-full table-auto border border-gray-300">
-                <thead class="text-gray-900 bg-gray-900 sticky top-0 z-10">
-                        <tr class="bg-gray-900 text-white text-sm text-left">
-                        <th class="p-2">Image</th>
-                        <th class="p-2">Produit</th>
-                        <th class="p-2">Prix</th>
-                        <th class="p-2">Stock</th>
-                        <th class="p-2">Action</th>
-                    </tr>
-                </thead>
-                <tbody class="text-gray-900">
-                    @foreach ($produits as $produit)
-                        <tr class="border-t hover:bg-gray-50">
-                            <td class="p-2"><img src="{{ asset('storage/' . $produit->image) }}" alt="img" class="w-12 h-12 object-cover"></td>
-                            <td class="p-2">{{ $produit->libelle }}</td>
-                            <td class="p-2">{{ $produit->prix }} FCFA</td>
-                            <td class="p-2">{{ $produit->quantiteStock }}</td>
-                            <td class="p-2">
-                                <button type="button"
-                                    class="btn btn-neutral px-3 py-1 hover:bg-gray-900 rounded text-sm"
-                                    onclick="ajouterPanier('{{ $produit->libelle }}', '{{ $produit->prix }}', '{{ $produit->quantiteStock }}', '{{ $produit->produit_id }}')">
-                                    Ajouter
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
+
+<table class="w-full table-auto border border-gray-300" id="produitsTable">
+    <thead class="text-gray-900 bg-gray-900 sticky top-0 z-10">
+        <tr class="bg-gray-900 text-white text-sm text-left">
+            <th class="p-2">Image</th>
+            <th class="p-2">Produit</th>
+            <th class="p-2">Prix</th>
+            <th class="p-2">Stock</th>
+            <th class="p-2">Action</th>
+        </tr>
+    </thead>
+    <tbody class="text-gray-900" id="produitsBody">
+        @foreach ($produits as $produit)
+            <tr class="border-t hover:bg-gray-50">
+                <td class="p-2">
+                    <img src="{{ asset('storage/' . ($produit->image ?? 'imageProduit/default.jpeg')) }}"
+                         alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover">
+                </td>
+                <td class="p-2">{{ $produit->libelle }}</td>
+                <td class="p-2">{{ $produit->prix }} FCFA</td>
+                <td class="p-2">{{ $produit->quantiteStock }}</td>
+                <td class="p-2">
+                    <button type="button"
+                        class="btn btn-neutral px-3 py-1 hover:bg-gray-900 rounded text-sm"
+                        onclick="ajouterPanier('{{ $produit->libelle }}', '{{ $produit->prix }}', '{{ $produit->quantiteStock }}', '{{ $produit->produit_id }}')">
+                        Ajouter
+                    </button>
+                </td>
+            </tr>
+        @endforeach
+    </tbody>
+</table>
+
         </div>
 
 
@@ -67,15 +74,17 @@ retour
         </div>
             <div>
                 <label for="client_input" class="block text-sm font-semibold">Client</label>
-                <input list="clients_list" name="client_id" id="client_input"
-                       placeholder="ID ou nom client"
-                       class="w-full border px-2 py-1 rounded mt-1">
+                <input list="clients_list" name="client_name" id="client_input"
+                    placeholder="nom client"
+                    class="w-full border px-2 py-1 rounded mt-1">
+                <input type="hidden" name="client_id" id="client_id">
                 <datalist id="clients_list">
                     @foreach($clients as $client)
-                        <option value="{{ $client->client_id }}">{{ $client->first_name }} {{ $client->name }}({{ $client->contact }})</option>
+                        <option value="{{ $client->first_name }} {{ $client->name }} ({{ $client->contact }})" data-id="{{ $client->client_id }}">
                     @endforeach
                 </datalist>
             </div>
+
 
             <div class="mt-4">
                 <h3 class="text-lg font-semibold mb-2">Panier</h3>
@@ -96,69 +105,7 @@ retour
         </div>
     </div>
 </form>
-
-<script>
-const prix_total = document.getElementById('prix_total');
-prix_total.textContent = 0;
-
-function ajouterPanier(nom, prix, qtd, id) {
-
-    let le_prix = prompt("Entrer le prix :", prix);
-        if (le_prix === null) {
-            return;
-        }
-        let prix_achat = Number(le_prix);
-        if (isNaN(prix_achat) || prix_achat <= 0) {
-            alert("Prix invalide !");
-            return;
-        }
-    const panier = document.getElementById('panier');
-
-    const dejaAjoute = Array.from(panier.children).some(ligne =>
-        ligne.querySelector('input[name="id_prod[]"]').value == id
-    );
-    if (dejaAjoute) {
-        alert("Ce produit est déjà dans le panier.");
-        return;
-    }
-
-    const ligne = document.createElement('div');
-    ligne.className = 'flex items-center justify-between bg-white p-2 rounded shadow';
-
-    ligne.innerHTML = `
-        <input type="number" min="0" max="${qtd}" value="1"
-               class="w-16 p-1 border rounded modif_qte"
-               name="qte[]" onchange="modifierPrix(event, ${prix_achat})">
-        <p class="flex-1 px-2">${nom}</p>
-        <input type="hidden" name="id_prod[]" value="${id}">
-        <input type="hidden" name="id_prix_achat[]" value="${prix_achat}">
-        <span class="prix font-bold">${prix_achat}</span> FCFA
-    `;
-    panier.appendChild(ligne);
-
-    prix_total.textContent = Number(prix_total.textContent) + Number(prix_achat);
-}
-
-function modifierPrix(event, prix_unitaire) {
-    const input = event.target;
-    const qte   = Number(input.value);
-    const ligne = input.parentElement;
-    const prixLigne = ligne.querySelector('.prix');
-    const ancien = Number(prixLigne.textContent);
-
-    if (qte <= 0) {
-        ligne.remove();
-        prix_total.textContent = Number(prix_total.textContent) - ancien;
-        return;
-    }
-
-    const nouveau = qte * prix_unitaire;
-    prixLigne.textContent = nouveau;
-    prix_total.textContent = Number(prix_total.textContent) - ancien + nouveau;
-}
-
-document.getElementById('form').addEventListener('submit', e => {
-    document.getElementById('input_total').value = prix_total.textContent;
-});
-</script>
 @endsection
+@push('scripts')
+    @vite('resources/js/commandes/vente.js')
+@endpush

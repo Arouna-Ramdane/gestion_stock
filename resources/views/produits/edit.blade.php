@@ -42,6 +42,9 @@ retour
             <div>
                 <input type="file" name="image" value="{{ $produits->image }}" placeholder="image"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
+                    @error('quantiteStock')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
             </div>
 
             <div class="flex justify-between pt-4">

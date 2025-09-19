@@ -14,7 +14,7 @@
             <a href="{{route('clients.create')}}"><button  class="btn btn-neutral">
                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-    </svg>ADD commande
+    </svg>AJOUTER UN CLIENTS
             </button></a>
             </div>
 
@@ -50,6 +50,9 @@
  </button>
                                 </a>
                             </div>
+                            @can('delete-client')
+
+
                             <div>
                                <form action="{{ route('clients.destroy', $client->client_id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?');">
     @csrf
@@ -64,6 +67,7 @@
 </form>
 
                             </div>
+                            @endcan
                             </div>
                         </td>
                 @empty

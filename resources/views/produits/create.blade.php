@@ -18,34 +18,39 @@ retour
             @csrf
 
             <div>
-                <input type="text" name="libelle" value="{{ old('libelle') }}" required placeholder="libelle"
+                <input type="text" name="libelle" value="{{ old('libelle') }}"  placeholder="libelle"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
 
                     @error('libelle')
-    <span class="text-red-600 text-sm">{{ $message }}</span>
-@enderror
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
 
             </div>
 
             <div>
-                <input type="text" name="prix" value="{{ old('prix') }}" required placeholder="prix"
+                <input type="text" name="prix" value="{{ old('prix') }}"  placeholder="prix"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
-
+                    @error('prix')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
             </div>
 
             <div>
-                <input type="number"  name="quantiteStock" value="{{ old('quantiteStock') }}" required placeholder="quantiteStock"
+                <input type="number"  name="quantiteStock" value="{{ old('quantiteStock') }}" placeholder="quantiteStock"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
 
                     @error('quantiteStock')
-    <span class="text-red-600 text-sm">{{ $message }}</span>
-@enderror
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
 
             </div>
 
             <div>
                 <input type="file" name="image" value="{{ old('image') }}" placeholder="image"
                     class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-blue-200">
+                    @error('image')
+                        <span class="text-red-600 text-sm">{{ $message }}</span>
+                    @enderror
 
             </div>
 
