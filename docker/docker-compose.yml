@@ -1,0 +1,24 @@
+services:
+  app_stages:
+    build: .
+    image: ets_arouna
+    entrypoint: ["/bin/bash", "/project/entrypoint.sh"]
+    restart: unless-stopped
+    ports:
+      - "9999:8000"
+    volumes:
+      - ./gestion_stock:/project/
+    depends_on:
+      - db_stages
+
+  db_stages:
+    image: postgres:15
+    env_file:
+      - .env
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  dbdata:
+
