@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('qte_appro');
             $table->string('date_appro');
             $table->timestamps();
-            $table->foreign('produit_id')->references('produit_id')->on('produits')->onDelete('set null');
+            
         });
     }
 

@@ -92,7 +92,7 @@ $validat_data_user     = collect($validatedData)->only(['email','password','prof
             $img = $request->file('profile');
             $extension = $img->getClientOriginalExtension();
             $file_name = $name . '.' . $extension;
-            $path = $img->storeAs('imagePersonne', $file_name);
+            $path = $img->storeAs('imagePersonne', $file_name, 'public');
 
             $validat_data_user['profile'] = $path;
 
@@ -105,7 +105,7 @@ $validat_data_user     = collect($validatedData)->only(['email','password','prof
             'profile' => $validat_data_user['profile'],
         ]);
 
-        $user->assignRole('userRole');
+        $user->assignRole('user');
 
         }else {
                 $personne = Personne::create($validat_data_personne);
@@ -209,7 +209,7 @@ public function update(Request $request, User $user)
         $img = $request->file('profile');
         $extension = $img->getClientOriginalExtension();
         $file_name = $name . '.' . $extension;
-        $path = $img->storeAs('imagePersonne', $file_name);
+        $path = $img->storeAs('imagePersonne', $file_name, 'public');
         $validat_data_user['profile'] = $path;
 
         $data_user = [
@@ -221,10 +221,10 @@ public function update(Request $request, User $user)
 
     $user->personne->update($data_personne);
 
-    $data_user = [
-        'email' => $validat_data_user['email'],
-        //'profile' => $validat_data_user['profile'],
-    ];
+    // $data_user = [
+    //     'email' => $validat_data_user['email'],
+    //     //'profile' => $validat_data_user['profile'],
+    // ];
 
     if (!empty($validat_data_user['password'])) {
         $data_user['password'] = Hash::make($validat_data_user['password']);

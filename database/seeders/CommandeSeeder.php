@@ -22,6 +22,6 @@ class CommandeSeeder extends Seeder
             'client_id' => 1
         ]];
 
-        DB::table('commandes')->insert($commandes);
+        //DB::table('commandes')->insert($commandes);
     }
 }

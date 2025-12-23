@@ -38,7 +38,7 @@
                 @forelse($produits as $produit)
                     <tr class="hover:bg-gray-50 border-b border-gray-200">
                         <td class="border-b border-gray-500">
-                            <img src="{{ asset('storage/' . ($produit->image ?? 'imageProduit/default.jpeg')) }}" alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover rounded">
+                            <img src="{{ asset('storage/' . ($produit->image ?? 'imageProduit/default.webp')) }}" alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover rounded">
                         </td>
                         <td class=" border-b border-gray-500 text-center">{{ $produit->libelle }}</td>
                         <td class=" border-b border-gray-500 text-center">{{ number_format($produit->prix, 0, ',', ' ') }}</td>

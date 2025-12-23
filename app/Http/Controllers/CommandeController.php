@@ -396,6 +396,45 @@ $all = DB::table('commandes')
         ]);
 }
 
+
+public function statistiques(Request $request)
+{
+    // Récupérer la période donnée (sinon période du jour)
+    $date_debut = $request->date_debut ?? Carbon::today()->toDateString();
+    $date_fin = $request->date_fin ?? Carbon::today()->toDateString();
+
+    // 1️⃣ Total commandes
+    $totalCommandes = Commande::whereBetween('dateCommande', [$date_debut, $date_fin])
+        ->count();
+
+    // 2️⃣ Chiffre d'affaires (somme des prix)
+    $chiffreAffaire = Commande::whereBetween('dateCommande', [$date_debut, $date_fin])
+        ->sum('prix_total');
+
+    // 3️⃣ Statistiques par PRODUIT
+    $produits = DB::table('ligne_commandes')
+        ->join('produits', 'produits.produit_id', '=', 'ligne_commandes.produit_id')
+        ->select(
+            'produits.libelle',
+            DB::raw('SUM(ligne_commandes.quantite) as total_vendu'),
+            DB::raw('SUM(ligne_commandes.prix_ligne) as montant_genere')
+        )
+        ->join('commandes', 'commandes.commande_id', '=', 'ligne_commandes.commande_id')
+        ->whereBetween('commandes.dateCommande', [$date_debut, $date_fin])
+        ->groupBy('produits.libelle')
+        ->orderByDesc('total_vendu')
+        ->get();
+
+    return view('commandes.statistiques', [
+        'totalCommandes' => $totalCommandes,
+        'chiffreAffaire' => $chiffreAffaire,
+        'produits' => $produits,
+        'date_debut' => $date_debut,
+        'date_fin' => $date_fin,
+    ]);
+}
+
+
 }
 
 

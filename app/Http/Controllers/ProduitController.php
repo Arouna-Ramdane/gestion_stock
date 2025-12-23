@@ -75,11 +75,12 @@ class ProduitController extends Controller implements HasMiddleware
 
         $extension= $img->getClientOriginalExtension();
         $file_name=$name.".".$extension;
-        $path= $img->storeAs('imageProduit', $file_name);
+        $path = $img->storeAs('imageProduit', $file_name, 'public');
+        
 
 
         $produit = Produit::create([
-            'libelle' =>$name,
+            'libelle' =>$validat_data_produit['libelle'],
             'prix' => $validat_data_produit['prix'],
             'quantiteStock' => $validat_data_produit['quantiteStock'],
             'image' => $path,
@@ -154,7 +155,7 @@ class ProduitController extends Controller implements HasMiddleware
         $img = $request->file('image');
         $extension = $img->getClientOriginalExtension();
         $file_name = $name . '.' . $extension;
-        $path = $img->storeAs('imageProduit', $file_name);
+        $path = $img->storeAs('imageProduit', $file_name, 'public');
         $data['image'] = $path;
     }
 
@@ -170,6 +171,6 @@ class ProduitController extends Controller implements HasMiddleware
     public function destroy(Produit $produit)
     {
         $produit->delete();
-        return redirect()->route('produits.index')->with('success', 'Produit supprimer avec succès.');;
+        return redirect()->route('produits.index')->with('success', 'Produit supprimer avec succès.');
     }
 }

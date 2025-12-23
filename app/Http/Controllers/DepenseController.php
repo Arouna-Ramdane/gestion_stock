@@ -29,6 +29,7 @@ class DepenseController extends Controller implements HasMiddleware
 
     public function index()
     {
+        
         $depenses = DB::table('depenses')->whereDate('created_at', now())->get();
         $total_depenses = $depenses->sum('montant');
         return view('depenses.index', [
@@ -106,5 +107,18 @@ class DepenseController extends Controller implements HasMiddleware
     {
         $depense->delete();
         return redirect()->back()->with('success', 'Dépense supprimée.');
+    }
+
+    public function all_depenses(Request $request){
+        
+        $depenses = DB::table('depenses')->get();
+        
+        if ($request->date) {
+            $depenses = DB::table('depenses')->whereDate('depenses.created_at', $request->date)->get();
+        }
+
+        return view('depenses.all_depenses', [
+            'depenses' => $depenses,
+        ]);
     }
 }

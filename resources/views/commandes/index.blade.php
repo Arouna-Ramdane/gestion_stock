@@ -10,7 +10,7 @@
 
     <div class="flex justify-between mb-5">
 
-
+    
         <h1>TOUS LES COMMANDES DE LA JOURNÉE</h1>
             <div>
             <a href="{{route('commandes.create')}}"><button  class="btn btn-neutral">

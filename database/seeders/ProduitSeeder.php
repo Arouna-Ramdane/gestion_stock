@@ -19,9 +19,9 @@ class ProduitSeeder extends Seeder
             'libelle' => 'frigo-renz',
             'prix' => 230000,
             'quantiteStock' => 10,
-            'image' => "imageProduit/frig-renz.jpeg",
+            'image' => "imageProduit/frigo_renz.jpg",
         ]];
 
-        DB::table('produits')->insert($produits);
+        //DB::table('produits')->insert($produits);
     }
 }

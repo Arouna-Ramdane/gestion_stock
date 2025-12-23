@@ -43,7 +43,10 @@ Route::middleware(['auth'])->get('/total_journalier', [CommandeController::class
 
 Route::middleware(['auth'])->get('/all_commandes', [CommandeController::class, 'all_commande'])->name('allCommande');
 
-//Route::post('/depenses', [CommandeController::class, 'storeDepense'])->name('depenses');
+Route::middleware(['auth'])->get('/all_depenses', [DepenseController::class, 'all_depenses'])->name('allDepenses');
+
+
+Route::get('/statistiques', [CommandeController::class, 'statistiques'])->name('commandes.statistiques');
 
 
 

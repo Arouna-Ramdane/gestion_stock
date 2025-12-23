@@ -4,7 +4,7 @@
 
  <div class="p-6">
             <a href="{{ route('commandes.index') }}"><button  class="btn btn-neutral">
-                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
 </svg>
 retour
@@ -31,6 +31,11 @@ retour
             <h2 class="text-xl font-semibold mb-4">Produits disponibles</h2>
 
 <table class="w-full table-auto border border-gray-300" id="produitsTable">
+    <div class="mb-4">
+    <input type="text" id="searchProduit" placeholder="Rechercher un produit..."
+           class="w-full border px-3 py-2 rounded focus:outline-none">
+</div>
+
     <thead class="text-gray-900 bg-gray-900 sticky top-0 z-10">
         <tr class="bg-gray-900 text-white text-sm text-left">
             <th class="p-2">Image</th>
@@ -44,8 +49,8 @@ retour
         @foreach ($produits as $produit)
             <tr class="border-t hover:bg-gray-50">
                 <td class="p-2">
-                    <img src="{{ asset('storage/' . ($produit->image ?? 'imageProduit/default.jpeg')) }}"
-                         alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover">
+                    <img src="{{ asset('storage/' . ($produit->image ?? 'imageProduit/default.webp')) }}"
+                        alt="{{ $produit->libelle }}" class="w-12 h-12 object-cover">
                 </td>
                 <td class="p-2">{{ $produit->libelle }}</td>
                 <td class="p-2">{{ $produit->prix }} FCFA</td>

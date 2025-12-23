@@ -127,6 +127,6 @@
 @endsection
 
 @push('scripts')
-    @vite('resources/js/commandes/edit.js')
+    @vite('resources/js/commandes/vente.js')
 @endpush
 

@@ -48,25 +48,25 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('input_total').value = prix_total.textContent;
     }
 
-   function modifierPrix(event, prix_unitaire) {
-    const input = event.target;
-    const qte   = Number(input.value) || 0;
-    const ligne = input.closest('.flex');
+    function modifierPrix(event, prix_unitaire) {
+        const input = event.target;
+        const qte   = Number(input.value) || 0;
+        const ligne = input.closest('.flex');
 
-    const prixInput = ligne.querySelector('.prix_ligne');
+        const prixInput = ligne.querySelector('.prix_ligne');
 
-    if (qte <= 0) {
-        ligne.remove();
+        if (qte <= 0) {
+            ligne.remove();
+            recalculerTotal();
+            return;
+        }
+
+        const nouveauPrix = qte * prix_unitaire;
+
+        prixInput.value = nouveauPrix;
+
         recalculerTotal();
-        return;
     }
-
-    const nouveauPrix = qte * prix_unitaire;
-
-    prixInput.value = nouveauPrix;
-
-    recalculerTotal();
-}
 
     function recalculerTotal() {
         let total = 0;
@@ -91,6 +91,24 @@ document.addEventListener('DOMContentLoaded', () => {
             const val = this.value;
             const option = Array.from(datalist.options).find(opt => opt.value === val);
             hiddenInput.value = option ? option.dataset.id : '';
+        });
+    }
+
+    // -------------------------------------------------------
+    // 🔍 BARRE DE RECHERCHE PRODUITS (AJOUTÉE SANS RIEN MODIFIER)
+    // -------------------------------------------------------
+
+    const searchInput = document.getElementById("searchProduit");
+    const produitsBody = document.getElementById("produitsBody");
+
+    if (searchInput && produitsBody) {
+        searchInput.addEventListener("keyup", function () {
+            const filtre = this.value.toLowerCase();
+
+            Array.from(produitsBody.children).forEach(row => {
+                const nomProduit = row.querySelectorAll("td")[1].textContent.toLowerCase();
+                row.style.display = nomProduit.includes(filtre) ? "" : "none";
+            });
         });
     }
 
